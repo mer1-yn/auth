@@ -31,7 +31,7 @@ if $a_flag; then
 		echo $file
 		grep -qxF "$(cat $file)" $moi || echo $(cat $file) >> $moi
 	done
-	grep -qxF $moi keyfiles && echo $moi >> keyfiles
+	grep -qxF $moi keyfiles || echo $moi >> keyfiles
 fi
 
 if $g_flag; then
