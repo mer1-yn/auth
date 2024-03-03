@@ -29,7 +29,7 @@ if $a_flag; then
 	for file in $(ls ~/.ssh/*.pub)
 	do
 		echo $file
-		grep -qxF "$(cat $file)" $moi || echo $(cat $file) >> $moi
+		grep -qxF "$(cat $file)" $moi || cat $file >> $moi
 	done
 	grep -qxF $moi keyfiles || echo $moi >> keyfiles
 fi
@@ -38,7 +38,8 @@ if $g_flag; then
 	test -f generated && rm generated
 	echo ---SSH Keyfile generated $(date)--- >> generated
 	for file in $(cat keyfiles)
-	do 
+	do	
+		echo $file
 		cat $file >> generated
 		echo >> generated
 	done
