@@ -2,7 +2,7 @@
 
 moi="$(git config user.name)"
 
-rm generated
+test -f generated && rm generated
 test -f $moi ||  echo "# $moi" >> $moi
 for file in $(ls ~/.ssh/*.pub)
 do
