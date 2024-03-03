@@ -1,3 +1,4 @@
 *
 !import.sh
+!keyfiles
 !$(cat keyfiles)
