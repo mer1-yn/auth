@@ -37,17 +37,19 @@ fi
 if $g_flag; then
 	test -f generated && rm generated
 	echo "---SSH Keyfile generated $date---" >> generated
-	for file in $(ls $dirname $0 | grep -vE "(import.sh|$moi)" )
+	for file in $(ls $dirname $0 | grep -vE "(import.sh|$moi)")
 	do 
+		echo $file
 		cat $file >> generated
 		echo >> generated
 	done
 fi
 
 if $f_flag; then
-	if grep -E "AuthorizedKey.*generated" /etc/ssh/sshd_config ; then
+	if [ !$(grep "AuthorizedKey.*generated" /etc/ssh/sshd_config) ] ; then
 		echo "Your sshd_config file is not configured to look at the $(dirname $0)/generated file. Please modify this in /etc/ssh/sshd_config"
 		exit 1
 	fi 
-	cp generated $fval
+	[ -f generated ] || $($0 -g) && cp generated $fval
+	[ -f generated ] && rm generated
 fi
