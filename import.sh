@@ -3,17 +3,16 @@
 f_flag=false
 g_flag=false
 a_flag=false
+e_flag=true
 fval="~/.ssh/generated"
 
-print_usage() {
-  printf "Usage: "
-}
-
-while getopts 'af::g' flag; do
+while getopts 'af::eg' flag; do
   case "${flag}" in
     a) a_flag='true' ;;
     f) f_flag='true' 
 	    fval=$OPTARG;;
+    e) e_flag='false' 
+    	f_flag='true';;
     g) g_flag='true' ;;
     *) printf '\nUsage: %s: \n\t [-a] Add local keys \n\t [-f FILENAME] Write to file \n\t [-g] Generate new keylist\n' $0; exit 2 ;;
   esac
@@ -32,11 +31,13 @@ if $a_flag; then
 		echo $file
 		grep -qxF "$(cat $file)" $moi || echo $(cat $file) >> $moi
 	done
+	grep -qxF $moi keyfiles && echo $moi >> keyfiles
 fi
 
 if $g_flag; then
 	test -f generated && rm generated
-	echo "---SSH Keyfile generated $date---" >> generated
+	echo '---SSH Keyfile generated $(date)---' >> generated
+	echo $(ls $(dirname $0) | grep -vE "(import.sh|$moi|gemerated)")
 	for file in $(ls $dirname $0 | grep -vE "(import.sh|$moi)")
 	do 
 		echo $file
@@ -46,10 +47,12 @@ if $g_flag; then
 fi
 
 if $f_flag; then
-	if [ !$(grep "AuthorizedKey.*generated" /etc/ssh/sshd_config) ] ; then
-		echo "Your sshd_config file is not configured to look at the $(dirname $0)/generated file. Please modify this in /etc/ssh/sshd_config"
-		exit 1
+	if $e_flag; then
+		if [ !$(grep "AuthorizedKey.*generated" /etc/ssh/sshd_config) ] ; then
+			echo "Your sshd_config file is not configured to look at the $(dirname $0)/generated file. Please modify this in /etc/ssh/sshd_config"
+			exit 1
+		fi
 	fi 
-	[ -f generated ] || $($0 -g) && cp generated $fval
+	[ -f generated ] || exec $0 -g  && cp generated $fval
 	[ -f generated ] && rm generated
 fi
