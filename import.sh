@@ -1,7 +1,7 @@
 #!/bin/bash
 
 moi="$(git config user.name)"
-
+touch $moi
 for file in $(ls ~/.ssh/*.pub)
 do
 	echo $file
@@ -11,5 +11,5 @@ done
 
 for file in $(ls . | grep -vE "(import.sh|$moi|generated)" )
 do 
-	cat file >> generated
+	cat $file >> generated
 done
