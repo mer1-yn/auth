@@ -36,11 +36,9 @@ fi
 
 if $g_flag; then
 	test -f generated && rm generated
-	echo '---SSH Keyfile generated $(date)---' >> generated
-	echo $(ls $(dirname $0) | grep -vE "(import.sh|$moi|gemerated)")
-	for file in $(ls $dirname $0 | grep -vE "(import.sh|$moi)")
+	echo ---SSH Keyfile generated $(date)--- >> generated
+	for file in $(cat keyfiles)
 	do 
-		echo $file
 		cat $file >> generated
 		echo >> generated
 	done
