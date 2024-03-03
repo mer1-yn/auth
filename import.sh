@@ -1,7 +1,8 @@
 #!/bin/bash
 
 moi="$(git config user.name)"
-touch $moi
+
+test -f $moi ||  echo "# $moi" >> $moi
 for file in $(ls ~/.ssh/*.pub)
 do
 	echo $file
