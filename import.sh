@@ -2,6 +2,7 @@
 
 moi="$(git config user.name)"
 
+rm generated
 test -f $moi ||  echo "# $moi" >> $moi
 for file in $(ls ~/.ssh/*.pub)
 do
@@ -13,4 +14,5 @@ done
 for file in $(ls . | grep -vE "(import.sh|$moi|generated)" )
 do 
 	cat $file >> generated
+	echo >> generated
 done
