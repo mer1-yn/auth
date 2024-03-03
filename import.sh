@@ -1,26 +1,31 @@
 #!/bin/bash
 
-f_flag=''
-g_flag=''
-a_flag=''
+f_flag=false
+g_flag=false
+a_flag=false
+fval="~/.ssh/generated"
 
 print_usage() {
   printf "Usage: "
 }
 
-while getopts 'afg' flag; do
+while getopts 'af::g' flag; do
   case "${flag}" in
     a) a_flag='true' ;;
-    f) f_flag='true' ;;
+    f) f_flag='true' 
+	    fval=$OPTARG;;
     g) g_flag='true' ;;
-    ?) printf '\nUsage: %s: [-a] aflag [-b] bflag\n' $0; exit 2 ;;
+    *) printf '\nUsage: %s: \n\t [-a] Add local keys \n\t [-f FILENAME] Write to file \n\t [-g] Generate new keylist\n' $0; exit 2 ;;
   esac
 done
 
+if [ $a_flag == false ] && [ $g_flag == false ] && [ $f_flag == false ]; then 
+	printf '%s: no arguments: \n\nUsage: %s: \n\t [-a] Add local keys \n\t [-f FILENAME] Write to file \n\t [-g] Generate new keylist\n' $0; 
+	exit 2
+fi
 moi="$(git config user.name)"
-test -f generated && rm generated
 
-if getopts "a" arg; then
+if $a_flag; then
 	test -f $moi ||  echo "# $moi" >> $moi
 	for file in $(ls ~/.ssh/*.pub)
 	do
@@ -29,16 +34,20 @@ if getopts "a" arg; then
 	done
 fi
 
-for file in $(ls . | grep -vE "(import.sh|$moi|generated)" )
-do 
-	cat $file >> generated
-	echo >> generated
-done
+if $g_flag; then
+	test -f generated && rm generated
+	echo "---SSH Keyfile generated $date---" >> generated
+	for file in $(ls $dirname $0 | grep -vE "(import.sh|$moi)" )
+	do 
+		cat $file >> generated
+		echo >> generated
+	done
+fi
 
-if getopts "f" arg; then
+if $f_flag; then
 	if grep -E "AuthorizedKey.*generated" /etc/ssh/sshd_config ; then
 		echo "Your sshd_config file is not configured to look at the $(dirname $0)/generated file. Please modify this in /etc/ssh/sshd_config"
 		exit 1
 	fi 
-	cp generated ~/.ssh/
+	cp generated $fval
 fi
