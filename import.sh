@@ -37,6 +37,7 @@ if $a_flag; then
 		grep -qxF "$(cat $file)" $moi || echo "$(cat $file) #$file" >> $moi
 	done
 	grep -qxF $moi $authdir/keyfiles || echo $moi >> $authdir/keyfiles
+	echo "!$moi" >> .gitignore
 fi
 
 if $g_flag; then
