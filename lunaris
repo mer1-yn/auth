@@ -2,6 +2,3 @@
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF6HBmnsXp/7tV3eD0bmPcQ4YwS5PjFF9w/Nt/F82gmp lunaris@lustre #/home/lunaris/.ssh/github.pub
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIZ8t79PaXHGkFWTO3biPyoWv+dSfHtTTNJRIiS2SEpM lunaris@lustre #/home/lunaris/.ssh/id_ed25519.pub
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII52M5AGo6Mm+nrYm/FbA4oboKvatUozc1PiZSX93B9Q lunaris@lustre #/home/lunaris/.ssh/nopass-id_ed25519.pub
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF6HBmnsXp/7tV3eD0bmPcQ4YwS5PjFF9w/Nt/F82gmp lunaris@lustre #/home/lunaris/.ssh/github.pub
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIZ8t79PaXHGkFWTO3biPyoWv+dSfHtTTNJRIiS2SEpM lunaris@lustre #/home/lunaris/.ssh/id_ed25519.pub
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII52M5AGo6Mm+nrYm/FbA4oboKvatUozc1PiZSX93B9Q lunaris@lustre #/home/lunaris/.ssh/nopass-id_ed25519.pub
