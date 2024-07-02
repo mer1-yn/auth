@@ -29,11 +29,12 @@ fi
 moi="$(git config user.name)"
 
 if $a_flag; then
+	#create the file for this machine's pubkeys
 	test -f $moi ||  echo "# $moi" >> $moi
 	for file in $(ls ~/.ssh/*.pub)
 	do
 		echo $file
-		grep -qxF "$(cat $file)" $moi || cat $file >> $moi
+		grep -qxF "$(cat $file)" $moi || echo "$(cat $file) #$file" >> $moi
 	done
 	grep -qxF $moi $authdir/keyfiles || echo $moi >> $authdir/keyfiles
 fi
