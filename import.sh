@@ -34,7 +34,7 @@ if $a_flag; then
 	for file in $(ls ~/.ssh/*.pub)
 	do
 		echo $file
-		grep -qxF "$(cat $file)" $moi || echo "$(cat $file) #$file" >> $moi
+		grep -qxF "$(cat $file) $file" $moi || echo "$(cat $file) #$file" >> $moi
 	done
 	grep -qxF $moi $authdir/keyfiles || echo $moi >> $authdir/keyfiles
 	echo "!$moi" >> .gitignore
